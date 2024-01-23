@@ -1,0 +1,38 @@
+name: PR Status Check
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  pr-status-check:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    # Add your custom steps to check the PR status
+    - name: Check Terraform Configuration
+      run: |
+        # Add commands to check your Terraform configurations
+        terraform init -input=false
+        terraform validate
+
+    - name: Set PR Status
+      uses: actions/github-script@0.12.0
+      with:
+        github-token: ${{ secrets.PR_GITHUB_TOKEN }}
+        script: |
+          const { data } = await github.repos.createCommitStatus({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            sha: context.sha,
+            state: 'success',  // Update based on your checks
+            target_url: 'https://github.com',  // Optional URL to more details
+            description: 'Terraform configuration checks passed!',
+            context: 'terraform-checks',
+          });
+
+          core.setOutput('status-id', data.id);

@@ -1,3 +1,5 @@
+[![.github/workflows/codecov.yaml](https://github.com/rmaloloyon/atlantis-example/actions/workflows/codecov.yaml/badge.svg?branch=master)](https://github.com/rmaloloyon/atlantis-example/actions/workflows/codecov.yaml)
+
 # atlantis-example
 A simple terraform project to use with `atlantis testdrive`.
 
